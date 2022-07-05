@@ -6,7 +6,7 @@ SwiperCore.use([Pagination, Navigation]);
 /* -------------------------------------------------------
   ▽ 使用imageの配列 ▽
 ---------------------------------------------------------- */
-const images = ["/logo-react.png", "/logo-wp.png", "/favicon.ico", "/ogp.jpg", ];
+const images = ["/logo-microcms.svg", "/favicon.ico", "/ogp.jpg", ];
 
 const SwiperComp = () => {
   return (

@@ -9,7 +9,8 @@ const nextConfig = {
     DEFAULT_DES: 'デフォルトディスクリプション',
     DEFAULT_KEY: 'デフォルトキー',
     DEFAULT_THUM: '/ogp.jpg',
-    WP_HOST: 'http://wp.empty-service.com', // API取得先
+    MICROCMS_HOST: 'https://emptyservice.microcms.io', // API取得先
+    MICROCMS_API_KEY: '25428d9c98a04363bc1305d0b293978ab774', // 取得先のAPI KEY
     NEXT_PUBLIC_GA_ID: 'UA-********-**' // GAのトラッキングID (例:UA-********-**)
   },
   typescript: {

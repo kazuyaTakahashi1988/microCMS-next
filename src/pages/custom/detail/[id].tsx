@@ -91,13 +91,13 @@ export const getStaticPaths = async () => {
   const now = new Date();
   const clear = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
   const res = await fetch(
-    `${process.env.WP_HOST}/wp-json/wp/v2/custom?per_page=6&cache=${clear}`
+    `${process.env.MICROCMS_HOST}/wp-json/wp/v2/custom?per_page=6&cache=${clear}`
   );
   const total = res.headers.get("x-wp-totalpages");
   let jsonAll: any[] = [];
   for (let index = 1; index < Number(total) + 1; index++) {
     const res = await fetch(
-      `${process.env.WP_HOST}/wp-json/wp/v2/custom?per_page=6&page=${index}&cache=${clear}`
+      `${process.env.MICROCMS_HOST}/wp-json/wp/v2/custom?per_page=6&page=${index}&cache=${clear}`
     );
     const json: any = await res.json();
     await json.map((jsonPush: any) => {
@@ -118,7 +118,7 @@ export const getStaticProps = async (context: { params: any }) => {
   const clear = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
   const { id } = context.params;
   const res = await fetch(
-    `${process.env.WP_HOST}/wp-json/wp/v2/custom/${id}?_embed&cache=${clear}`
+    `${process.env.MICROCMS_HOST}/wp-json/wp/v2/custom/${id}?_embed&cache=${clear}`
   );
   const json = await res.json();
   return {

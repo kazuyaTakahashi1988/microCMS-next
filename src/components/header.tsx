@@ -14,11 +14,11 @@ export const Header = ({ pageType }: Props) => {
         ---------------------------------------------------------- */ }
         <div className="logo_area">
           <a
-            href={process.env.WP_HOST}
+            href="https://microcms.io/"
             target="_blank"
             rel="noreferrer"
           >
-            <img src="/logo-wp.png" alt="WPロゴ" />
+            <img src="/logo-microcms.svg" alt="microCMSロゴ" />
           </a>
         </div>
 
@@ -31,11 +31,11 @@ export const Header = ({ pageType }: Props) => {
               <li className={pageType == `home` ? `current` : ``}>
                 <Link href="/">Home</Link>
               </li>
-              <li className={pageType == `post` ? `current` : ``}>
-                <Link href="/post">Post</Link>
+              <li className={pageType == `blog` ? `current` : ``}>
+                <Link href="/blog">Blog</Link>
               </li>
-              <li className={pageType == `custom` ? `current` : ``}>
-                <Link href="/custom">customPost</Link>
+              <li className={pageType == `customblog` ? `current` : ``}>
+                <Link href="/customblog">CustomBlog</Link>
               </li>
               <li className={pageType == `contact` ? `current` : ``}>
                 <Link href="/contact">Contact</Link>

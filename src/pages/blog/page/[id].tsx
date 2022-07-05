@@ -4,27 +4,27 @@ import Layout from "../../../components/layout";
 import Articles from "../../../components/articles";
 
 export const Page = ({ posts, total, id }: Props) => {
-  
+
   return (
     <Layout
       /* -------------------------------------------------------
         ▽ 固有 meta ▽
       ---------------------------------------------------------- */
-      pageTtl={`Page-${id} | Post`}
+      pageTtl={`Page-${id} | Blog`}
       pageDes={`Page-${id}のディスクリプション`}
-      pageUrl={`post/page/${id}`}
+      pageUrl={`blog/page/${id}`}
       // pageKey=""
       // pageThum=""
-      pageType="post"
+      pageType="blog"
     >
 
       {/* -------------------------------------------------------
         ▽ 記事一覧  ▽
       ---------------------------------------------------------- */}
-      <h2 className="sttl">new Post - {id}</h2>
+      <h2 className="sttl">new Blog - {id}</h2>
       <Articles
         posts={posts}
-        slug={`post`}
+        slug={`blog`}
         total={total}
         currentNum={Number(id)}
         postDetail={undefined}
@@ -42,12 +42,18 @@ export const getStaticPaths = async () => {
   ---------------------------------------------------------- */
   const now = new Date();
   const clear = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
+  const count = 6; // 記事取得数
   const res = await fetch(
-    `${process.env.WP_HOST}/wp-json/wp/v2/posts?_embed&per_page=6&cache=${clear}`
-  );
-  const total = res.headers.get("x-wp-totalpages");
+    `${process.env.MICROCMS_HOST}/api/v1/blogs?limit=${count}&cache=${clear}`, {
+    method: "GET",
+    headers: {
+      "X-MICROCMS-API-KEY": process.env.MICROCMS_API_KEY,
+    }
+  });
+  const json = await res.json();
+  const total = parseInt(json.totalCount / count) + 1;
   const pageCount = Array.from(new Array(Number(total))).map((v, i) => i + 1);
-  const paths = pageCount.map((count) => `/post/page/${count}`);
+  const paths = pageCount.map((int) => `/blog/page/${int}`);
   return { paths, fallback: false };
 
 };
@@ -60,19 +66,24 @@ export const getStaticProps = async (context: { params: any }) => {
   const now = new Date();
   const clear = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
   const { id } = context.params;
+  const count = 6; // 記事取得数
+  const offset = id * count - count; // 記事取得数
   const res = await fetch(
-    `${process.env.WP_HOST}/wp-json/wp/v2/posts?_embed&per_page=6&page=${id}&cache=${clear}`
-  );
-  const total = res.headers.get("x-wp-totalpages");
+    `${process.env.MICROCMS_HOST}/api/v1/blogs?limit=${count}&offset=${offset}&cache=${clear}`, {
+    method: "GET",
+    headers: {
+      "X-MICROCMS-API-KEY": process.env.MICROCMS_API_KEY,
+    }
+  });
   const json = await res.json();
   return {
     props: {
-      posts: json,
-      total: total,
+      posts: json.contents,
+      total: json.totalCount / count,
       id: id,
     },
   };
-  
+
 };
 
 export default Page;

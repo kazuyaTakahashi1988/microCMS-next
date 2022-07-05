@@ -5,7 +5,6 @@ import SwiperComp from "../components/swiper";
 import Articles from "../components/articles";
 
 export const Home = ({ posts }: Props) => {
-  
   return (
     <Layout
       /* -------------------------------------------------------
@@ -27,10 +26,10 @@ export const Home = ({ posts }: Props) => {
       {/* -------------------------------------------------------
         ▽ 記事一覧  ▽
       ---------------------------------------------------------- */}
-      <h2 className="sttl">new Post</h2>
+      <h2 className="sttl">new Blog</h2>
       <Articles
         posts={posts}
-        slug={`post`}
+        slug={`blog`}
         total={0}
         currentNum={0}
         postDetail={undefined}
@@ -49,15 +48,18 @@ export const getStaticProps = async () => {
   const now = new Date();
   const clear = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
   const res = await fetch(
-    `${process.env.WP_HOST}/wp-json/wp/v2/posts?_embed&per_page=6&cache=${clear}`
-  );
+    `${process.env.MICROCMS_HOST}/api/v1/blogs?limit=6&cache=${clear}`, {
+    method: "GET",
+    headers: {
+      "X-MICROCMS-API-KEY": process.env.MICROCMS_API_KEY,
+    }
+  });
   const json = await res.json();
   return {
     props: {
-      posts: json,
+      posts: json.contents,
     },
   };
-
 };
 
 export default Home;

@@ -36,18 +36,18 @@ export const Articles = ({ posts, slug, total, currentNum }: Props) => {
                   <img src="/frame.png" alt="フレーム" />
                   <img
                     src={
-                      post._embedded["wp:featuredmedia"]
-                        ? post._embedded["wp:featuredmedia"][0].source_url
+                      post.eyecatch
+                        ? post.eyecatch.url
                         : "/dummy.png"
                     }
-                    alt={post.title.rendered}
+                    alt={post.title}
                     className="thum-img"
                   />
                 </div>
-                {post.date.slice(0, 10)}
+                {post.publishedAt.slice(0, 10)}
                 <br />
-                <strong>{post.title.rendered}</strong>
-                {post.content.rendered
+                <strong>{post.title}</strong>
+                {post.content
                   .replace(/(<([^>]+)>)/gi, "")
                   .slice(0, 50)}
               </a>

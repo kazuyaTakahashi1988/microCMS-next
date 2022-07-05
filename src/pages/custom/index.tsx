@@ -43,7 +43,7 @@ export const getStaticProps = async () => {
   const now = new Date();
   const clear = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
   const res = await fetch(
-    `${process.env.WP_HOST}/wp-json/wp/v2/custom?_embed&per_page=6&cache=${clear}`
+    `${process.env.MICROCMS_HOST}/wp-json/wp/v2/custom?_embed&per_page=6&cache=${clear}`
   );
   const total = res.headers.get("x-wp-totalpages");
   const json = await res.json();

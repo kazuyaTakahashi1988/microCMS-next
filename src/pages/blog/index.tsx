@@ -10,21 +10,21 @@ export const Post = ({ posts, total }: Props) => {
       /* -------------------------------------------------------
         ▽ 固有 meta ▽
       ---------------------------------------------------------- */
-      pageTtl="Page-1 | Post"
+      pageTtl="Page-1 | Blog"
       pageDes="Page-1のディスクリプション"
-      pageUrl="post"
+      pageUrl="blog"
       // pageKey=""
       // pageThum=""
-      pageType="post"
+      pageType="blog"
     >
 
       {/* -------------------------------------------------------
         ▽ 記事一覧  ▽
       ---------------------------------------------------------- */}
-      <h2 className="sttl">new Post - 1</h2>
+      <h2 className="sttl">new Blog - 1</h2>
       <Articles
         posts={posts}
-        slug={`post`}
+        slug={`blog`}
         total={total}
         currentNum={1}
         postDetail={undefined}
@@ -42,15 +42,19 @@ export const getStaticProps = async () => {
   ---------------------------------------------------------- */
   const now = new Date();
   const clear = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
+  const count = 6; // 記事取得数
   const res = await fetch(
-    `${process.env.WP_HOST}/wp-json/wp/v2/posts?_embed&per_page=6&cache=${clear}`
-  );
-  const total = res.headers.get("x-wp-totalpages");
+    `${process.env.MICROCMS_HOST}/api/v1/blogs?limit=${count}&cache=${clear}`, {
+    method: "GET",
+    headers: {
+      "X-MICROCMS-API-KEY": process.env.MICROCMS_API_KEY,
+    }
+  });
   const json = await res.json();
   return {
     props: {
-      posts: json,
-      total: total,
+      posts: json.contents,
+      total: json.totalCount / count,
     },
   };
   
