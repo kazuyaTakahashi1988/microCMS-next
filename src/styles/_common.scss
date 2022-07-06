@@ -123,6 +123,10 @@ footer {
           color: #000;
           margin: 10px 0;
           border-radius: 5px;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
         .thum{
           position: relative;

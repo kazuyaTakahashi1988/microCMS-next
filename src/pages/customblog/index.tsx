@@ -3,28 +3,28 @@ import { Props } from "../../lib/props";
 import Layout from "../../components/layout";
 import Articles from "../../components/articles";
 
-export const customPost = ({ posts, total }: Props) => {
+export const Post = ({ posts, total }: Props) => {
   
   return (
     <Layout
       /* -------------------------------------------------------
         ▽ 固有 meta ▽
       ---------------------------------------------------------- */
-      pageTtl="customPage-1 | customPost"
-      pageDes="customPage-1のディスクリプション"
-      pageUrl="custom"
+      pageTtl="Page-1 | CustomBlog"
+      pageDes="Page-1のディスクリプション"
+      pageUrl="customblog"
       // pageKey=""
       // pageThum=""
-      pageType="custom"
+      pageType="customblog"
     >
 
       {/* -------------------------------------------------------
         ▽ 記事一覧  ▽
       ---------------------------------------------------------- */}
-      <h2 className="sttl">new customPost - 1</h2>
+      <h2 className="sttl">new CustomBlog - 1</h2>
       <Articles
         posts={posts}
-        slug={`custom`}
+        slug={`customblog`}
         total={total}
         currentNum={1}
         postDetail={undefined}
@@ -42,18 +42,22 @@ export const getStaticProps = async () => {
   ---------------------------------------------------------- */
   const now = new Date();
   const clear = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
+  const count = 6; // 記事取得数
   const res = await fetch(
-    `${process.env.MICROCMS_HOST}/wp-json/wp/v2/custom?_embed&per_page=6&cache=${clear}`
-  );
-  const total = res.headers.get("x-wp-totalpages");
+    `${process.env.MICROCMS_HOST}/api/v1/customblogs?limit=${count}&cache=${clear}`, {
+    method: "GET",
+    headers: {
+      "X-MICROCMS-API-KEY": process.env.MICROCMS_API_KEY,
+    }
+  });
   const json = await res.json();
   return {
     props: {
-      posts: json,
-      total: total,
+      posts: json.contents,
+      total: json.totalCount / count,
     },
   };
   
 };
 
-export default customPost;
+export default Post;

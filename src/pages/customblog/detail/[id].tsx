@@ -9,17 +9,17 @@ export const Detail = ({ postDetail, id }: Props) => {
       /* -------------------------------------------------------
         ▽ 固有 meta ▽
       ---------------------------------------------------------- */
-      pageTtl={`${postDetail.title} | Blog`}
+      pageTtl={`${postDetail.title} | CustomBlog`}
       pageDes={postDetail.content
         .replace(/(<([^>]+)>)/gi, "")
         .slice(0, 130)}
-      pageUrl={`blog/detail/${id}`}
+      pageUrl={`customblog/detail/${id}`}
       pageThum={
         postDetail.eyecatch &&
         postDetail.eyecatch.url
       }
       // pageKey=""
-      pageType="blog"
+      pageType="customblog"
     >
       {/* -------------------------------------------------------
         ▽ 記事詳細 ▽
@@ -29,9 +29,9 @@ export const Detail = ({ postDetail, id }: Props) => {
         <div className="data">{postDetail.updatedAt.slice(0, 10)}</div>
         <div className="cate">
           <span>category:</span>
-          <Link href={`/blog/category/${postDetail.category.id}`}>
+          <a href={`/customblog/category/${postDetail.category.id}`}>
             {postDetail.category.name}
-          </Link>
+          </a>
         </div>
 
         <div className="wclmn">
@@ -53,6 +53,32 @@ export const Detail = ({ postDetail, id }: Props) => {
             dangerouslySetInnerHTML={{ __html: postDetail.content }}
           ></div>
         </div>
+        {postDetail.roopItems.length >= 1 &&
+          <div className="custam-fields-area">
+            <h3 className="ttl">LoopField</h3>
+            {postDetail.roopItems.map((roopItem: any, index: number) => (
+              <div className="wclmn">
+                <div className="sub-thum">
+                  <span>sub-サムネイル</span>
+                  <img src="/frame.png" alt="フレーム" />
+                  <img
+                    src={roopItem.roopItemB.url}
+                    alt="sub-サムネイル"
+                    className="thum-img"
+                  />
+                </div>
+                <div className="sub-conts">
+                  <div
+                    className="editor-style"
+                    dangerouslySetInnerHTML={{
+                      __html: roopItem.roopItemA,
+                    }}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        }
       </div>
     </Layout>
   );
@@ -66,14 +92,14 @@ export const getStaticPaths = async () => {
   const now = new Date();
   const clear = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
   const res = await fetch(
-    `${process.env.MICROCMS_HOST}/api/v1/blogs?limit=99999&cache=${clear}`, {
+    `${process.env.MICROCMS_HOST}/api/v1/customblogs?limit=99999&cache=${clear}`, {
     method: "GET",
     headers: {
       "X-MICROCMS-API-KEY": process.env.MICROCMS_API_KEY,
     }
   });
   const json = await res.json();
-  const paths = json.contents.map((jsonChild: { id: string; }) => `/blog/detail/${jsonChild.id}`);
+  const paths = json.contents.map((jsonChild: { id: string; }) => `/customblog/detail/${jsonChild.id}`);
   return { paths, fallback: false };
 
 };
@@ -87,7 +113,7 @@ export const getStaticProps = async (context: { params: string }) => {
   const clear = `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
   const { id } = context.params;
   const res = await fetch(
-    `${process.env.MICROCMS_HOST}/api/v1/blogs/${id}?cache=${clear}`, {
+    `${process.env.MICROCMS_HOST}/api/v1/customblogs/${id}?cache=${clear}`, {
     method: "GET",
     headers: {
       "X-MICROCMS-API-KEY": process.env.MICROCMS_API_KEY,
