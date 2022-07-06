@@ -15,8 +15,6 @@ jobs:
     timeout-minutes: 10 # デフォルトは360（6時間）のため短い時間で設定しておく
     env:
       NODE_ENV: production
-      MICROCMS_HOST: ${{ secrets.MICROCMS_HOST }}
-      MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
       
     steps:
       - name: Checkout
