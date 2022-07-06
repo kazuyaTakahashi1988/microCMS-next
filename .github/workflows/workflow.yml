@@ -33,6 +33,9 @@ jobs:
 
       - name: Next Generate
         run: npm run build
+        env:
+          MICROCMS_HOST: ${{ secrets.MICROCMS_HOST }}
+          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
 
       - name: FTP-Deploy-Action
         uses: SamKirkland/FTP-Deploy-Action@4.1.0 # FTPを使ってサーバーにDeployするアクションを実行
