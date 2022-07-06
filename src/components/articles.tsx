@@ -44,7 +44,7 @@ export const Articles = ({ posts, slug, total, currentNum }: Props) => {
                     className="thum-img"
                   />
                 </div>
-                {post.updatedAt.slice(0, 10)}
+                {post.publishedAt.slice(0, 10)}
                 <br />
                 <strong>{post.title}</strong>
                 {post.content
