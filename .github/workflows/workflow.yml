@@ -36,10 +36,9 @@ jobs:
 
       - name: FTP-Deploy-Action
         uses: SamKirkland/FTP-Deploy-Action@4.1.0 # FTPを使ってサーバーにDeployするアクションを実行
-        env: # FTP環境の設定を行う
+        with:
           server: ${{ secrets.FTP_SERVER }} # FTPサーバーのURLを設定
           username: ${{ secrets.FTP_USERNAME }} # FTPのユーザー名を設定
           password: ${{ secrets.FTP_PASSWORD }} # FTPのパスワードを設定
           local-dir: ./out/ # どのディレクトリのデータをアップロードするか
           server-dir: /microcms/ # リモートのどのディレクトリにアップロードするか
-          dangerous-clean-slate: true
