@@ -26,7 +26,7 @@ export const Detail = ({ postDetail, id }: Props) => {
       ---------------------------------------------------------- */}
       <h2 className="sttl">{postDetail.title}</h2>
       <div className="post_contents-area">
-        <div className="data">{postDetail.publishedAt.slice(0, 10)}</div>
+        <div className="data">{postDetail.createdAt.slice(0, 10)}</div>
         <div className="cate">
           <span>category:</span>
           <Link href={`/blog/category/${postDetail.category.id}`}>
